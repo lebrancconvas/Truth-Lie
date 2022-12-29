@@ -9,13 +9,13 @@
       <div>
         <Form>
           <FormItem label="Statement 1">
-            <Input v-model="formStatement.statement1.statement" type="textarea" />
+            <Input v-model="formStatement.statement1.content" type="textarea" />
           </FormItem>
           <FormItem label="Statement 2">
-            <Input v-model="formStatement.statement2.statement" type="textarea" />
+            <Input v-model="formStatement.statement2.content" type="textarea" />
           </FormItem>
           <FormItem label="Statement 3">
-            <Input v-model="formStatement.statement3.statement" type="textarea" />
+            <Input v-model="formStatement.statement3.content" type="textarea" />
           </FormItem>
           <FormItem label="Lie Statement">
             <RadioGroup v-model="formStatement.lieStatement">
@@ -29,8 +29,18 @@
     </section>
     <section id="action-section">
       <div>
-        <Button type="error">Reset</Button>
+        <Button type="error" @click="reset">Reset</Button>
         <Button type="success" @click="createStatement">Create Statement</Button>
+      </div>
+      <div>
+        <Modal v-model="modal" @on-ok="ok">
+          <template #title>
+            <h2>Success</h2>
+          </template>
+          <div>
+            <p>Statement has been created.</p>
+          </div>
+        </Modal>
       </div>
     </section>
   </div>
@@ -42,49 +52,44 @@
       return {
         formStatement: {
           statement1: {
-            statement: "",
+            content: "",
             isLie: false
           },
           statement2: {
-            statement: "",
+            content: "",
             isLie: false
           },
           statement3: {
-            statement: "",
+            content: "",
             isLie: false
           },
           lieStatement: "",
-          modal: false
-        }
+        },
+        modal: false
       }
     },
     methods: {
       createStatement() {
-        if(this.formStatement.statement1.statement === '' || this.formStatement.statement2.statement === '' || this.formStatement.statement3.statement === '') {
+        if(this.formStatement.statement1.content === '' || this.formStatement.statement2.content === '' || this.formStatement.statement3.content === '') {
           console.log(`Please filled all the statement.`);
         } else {
-          switch(this.formStatement.lieStatement) {
-            case('Statement 1'):
-              this.formStatement.statement1.isLie = true;
-              break;
-            case('Statement 2'):
-              this.formStatement.statement2.isLie = true;
-              break;
-            case('Statement 3'):
-              this.formStatement.statement3.isLie = true;
-              break;
-            default:
-              console.log(`Error: ${this.formStatement.lieStatement}`);
-              break;
-            }
-          console.log(this.formStatement);
           this.modal = true;
+          this.$store.commit("ADD_STATEMENT", this.formStatement);
         }
       },
+      reset() {
+        this.formStatement.statement1.content = "";
+        this.formStatement.statement2.content = "";
+        this.formStatement.statement3.content = "";
+        this.formStatement.lieStatement = "";
+      },
       ok() {
-        this.formStatement.statement1.statement = "";
-        this.formStatement.statement2.statement = "";
-        this.formStatement.statement3.statement = "";
+        this.formStatement.statement1.content = "";
+        this.formStatement.statement2.content = "";
+        this.formStatement.statement3.content = "";
+        this.formStatement.statement1.isLie = false;
+        this.formStatement.statement2.isLie = false;
+        this.formStatement.statement3.isLie = false;
         this.formStatement.lieStatement = "";
       }
     }
