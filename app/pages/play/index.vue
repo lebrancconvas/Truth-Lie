@@ -9,12 +9,12 @@
       <div v-for="(statement) in results" :key="statement.ID">
         <Card style="width: 500px">
           <template #title>
-            <h3>ID: {{ statement.ID }}</h3>
+            <h3>Statement ID: {{ statement.ID }}</h3>
           </template>
           <div>
-            <NuxtLink to="/play/:statement.id">
-              <Button type="primary">Play</Button>
-            </NuxtLink>
+              <NuxtLink :to="'/play/' + statement.ID">
+                <Button type="primary">Play</Button>
+              </NuxtLink>
           </div>
         </Card>
       </div>
@@ -40,6 +40,17 @@
           console.error(err);
           console.log(`[ERROR] Fetching Data error.`);
         })
+    },
+    methods: {
+      showID(statementID) {
+        console.log(`ID: ${statementID}`);
+        this.$router.push({
+          name: "statement-id",
+          params: {
+            id: statementID
+          }
+        })
+      }
     }
   }
 </script>
