@@ -11,15 +11,15 @@
     <section id="question-section">
       <div v-for="statement in results" :key="statement.ID">
         <List>
-          <ListItem>
+          <ListItem style="margin: 10px;">
             <h2>{{ statement.Statement1.Content }}</h2>
             <Button type="primary" @click="handleSelect(statement.Statement1.IsLie)">Select</Button>
           </ListItem>
-          <ListItem>
+          <ListItem style="margin: 10px;">
             <h2>{{ statement.Statement2.Content }}</h2>
             <Button type="primary" @click="handleSelect(statement.Statement2.IsLie)">Select</Button>
           </ListItem>
-          <ListItem>
+          <ListItem style="margin: 10px;">
             <h2>{{ statement.Statement3.Content }}</h2>
             <Button type="primary" @click="handleSelect(statement.Statement3.IsLie)">Select</Button>
           </ListItem>
